@@ -4,7 +4,7 @@
 BinaryTree::BinaryTree()
 {
     //ctor
-    depth = 0;
+    depth = -1;
     root = NULL;
 }
 
@@ -14,11 +14,11 @@ BinaryTree::~BinaryTree()
     destroyTree();
 }
 
-void BinaryTree::insert(Node *newNode) {
-    if (root != NULL) {
-        insert(newNode, root);
-    } else {
-        root = newNode;
+void BinaryTree::insert(std::vector<std::string> words) {
+    depth++;
+    for (unsigned i=0; i<words.size(); i++) {
+        Node *n = new Node(depth, words[i]);
+        insert(n);
     }
 }
 
@@ -39,6 +39,14 @@ void BinaryTree::destroyTree(Node *leaf) {
         destroyTree(leaf->getLeft());
         destroyTree(leaf->getRight());
         delete leaf;
+    }
+}
+
+void BinaryTree::insert(Node *newNode) {
+    if (root != NULL) {
+        insert(newNode, root);
+    } else {
+        root = newNode;
     }
 }
 
@@ -74,14 +82,14 @@ Node *BinaryTree::search(std::string word, Node *leaf) {
 
 void BinaryTree::printTree(Node *leaf) {
     if (leaf != NULL) {
-        std::cout << leaf->getWord() << ": ";
+        std::cout << "[" << leaf->getDistance() << "]" << leaf->getWord() << ": ";
         if (leaf->getLeft() != NULL) {
-            std::cout << leaf->getLeft()->getWord() << " ";
+            std::cout << "[" << leaf->getLeft()->getDistance() << "]" << leaf->getLeft()->getWord() << " ";
         } else {
             std::cout << "- ";
         }
         if (leaf->getRight() != NULL) {
-            std::cout << leaf->getRight()->getWord() << std::endl;
+            std::cout << "[" << leaf->getRight()->getDistance() << "]" <<leaf->getRight()->getWord() << std::endl;
         } else {
             std::cout << "-" << std::endl;
         }

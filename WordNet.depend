@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1466489909 source:c:\users\tifani\documents\github\wordnet-word-similarity\main.cpp
+1466491453 source:c:\users\tifani\documents\github\wordnet-word-similarity\main.cpp
 	<iostream>
 	"include/BinaryTree.h"
 	"include/DatabaseHandler.h"
@@ -76,15 +76,16 @@
 	<ctype.h>
 	<math.h>
 
-1466490823 c:\users\tifani\documents\github\wordnet-word-similarity\include\databasehandler.h
+1466491549 c:\users\tifani\documents\github\wordnet-word-similarity\include\databasehandler.h
 	<cstring>
 	<iostream>
 	<vector>
+	"Node.h"
 	"../lib/sqlite3.h"
 
 1464985455 c:\users\tifani\documents\github\wordnet-word-similarity\lib\sqlite3.h
 	<stdarg.h>
 
-1466488118 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\databasehandler.cpp
+1466490608 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\databasehandler.cpp
 	"DatabaseHandler.h"
 

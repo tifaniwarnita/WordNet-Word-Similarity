@@ -1,6 +1,8 @@
 #ifndef BINARYTREE_H
 #define BINARYTREE_H
 
+
+#include <vector>
 #include "Node.h"
 
 class BinaryTree {
@@ -30,7 +32,7 @@ public:
     void setDepth(unsigned int _depth) { depth = _depth; }
 
     //! OTHER OPERATIONS
-    void insert(Node *newNode);
+    void insert(std::vector<std::string> words);
     Node *search(std::string word);
     void destroyTree();
     void printTree();
@@ -40,6 +42,7 @@ protected:
 private:
     //! OTHER OPERATIONS
     void destroyTree(Node *leaf);
+    void insert(Node *newNode);
     void insert(Node *newNode, Node *leaf);
     Node *search(std::string word, Node *leaf);
     void printTree(Node *leaf);
