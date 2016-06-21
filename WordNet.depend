@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1466482605 source:c:\users\tifani\documents\github\wordnet-word-similarity\main.cpp
+	<iostream>
+	"include/BinaryTree.h"
+	"include/Node.h"
+
+1466482637 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\node.cpp
+	"../include/Node.h"
+
+1466476178 c:\users\tifani\documents\github\wordnet-word-similarity\include\node.h
+	<string>
+
+1466482847 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\binarytree.cpp
+	"../include/BinaryTree.h"
+	<iostream>
+
+1466482179 c:\users\tifani\documents\github\wordnet-word-similarity\include\binarytree.h
+	"Node.h"
+

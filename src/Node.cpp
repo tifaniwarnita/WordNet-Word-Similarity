@@ -1,7 +1,6 @@
 #include "../include/Node.h"
 
-Node::Node()
-{
+Node::Node() {
     //ctor
     left = NULL;
     right = NULL;
@@ -14,8 +13,7 @@ Node::Node(unsigned int _distance, std::string _word) {
     right = NULL;
 }
 
-Node::~Node()
-{
+Node::~Node() {
     //dtor
     delete left;
     delete right;
