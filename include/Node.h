@@ -10,6 +10,8 @@ public:
     /** Default constructor */
     Node();
     /** Constructor with parameter */
+    Node(std::string _word);
+    /** Constructor with parameter */
     Node(unsigned int _distance, std::string _word);
     /** Default destructor */
     virtual ~Node();
