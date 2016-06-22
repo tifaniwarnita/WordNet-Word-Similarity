@@ -13,6 +13,8 @@ public:
     Synsets(unsigned int _level, std::string word);
     virtual ~Synsets();
 
+    bool operator<(const Synsets& rhs) const { return level < rhs.level; }
+
     /** Getters and Setters */
     unsigned int getLevel() { return level; }
     void setLevel(unsigned int val) { level = val; }

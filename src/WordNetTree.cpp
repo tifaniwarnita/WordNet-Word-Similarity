@@ -15,10 +15,10 @@ WordNetTree::~WordNetTree() {
 
 bool WordNetTree::constructTree() {
     bool found = false; // variable found indicate whether the lso of two words has been found or not
-    std::vector<Synsets>::iterator itSynsets1 = synsets1.begin();
-    std::vector<Synsets>::iterator itSynsets2 = synsets2.begin();
-    Synsets s1 = (*itSynsets1);
-    Synsets s2 = (*itSynsets2);
+    unsigned int itSynsets1 = 0;
+    unsigned int itSynsets2 = 0;
+    Synsets s1 = synsets1.at(itSynsets1);
+    Synsets s2 = synsets2.at(itSynsets2);
     std::set<std::string> m1 = s1.getMember();
     std::set<std::string> m2 = s2.getMember();
     std::set<std::string>::iterator itMember1 = m1.begin();
@@ -36,7 +36,7 @@ bool WordNetTree::constructTree() {
     }
 
     // find the hypernyms if not found yet
-    while (!found && (itSynsets1 != synsets1.end() && (itSynsets2 != synsets2.end()))) {
+    while (!found && (itSynsets1 < synsets1.size() && (itSynsets2 < synsets2.size()))) {
         // expand check the first synsets
         // search the hypernym of first word
         if (itMember1 != m1.end()) {
@@ -53,10 +53,11 @@ bool WordNetTree::constructTree() {
             } else {
                 // not found, should expand and check the second synsets
                 // first, move the pointer of first synsets
-                itMember1++;
+                ++itMember1;
                 if (itMember1 == m1.end()) {
-                    itSynsets1++;
-                    if (itSynsets1 != synsets1.end()) {
+                    ++itSynsets1;
+                    if (itSynsets1 < synsets1.size()) {
+                        s1 = synsets1.at(itSynsets1);
                         m1 = s1.getMember();
                         itMember1 = m1.begin();
                     }
@@ -80,7 +81,8 @@ bool WordNetTree::constructTree() {
                 itMember2++;
                 if (itMember2 == m2.end()) {
                     itSynsets2++;
-                    if (itSynsets2 != synsets2.end()) {
+                    if (itSynsets2 < synsets2.size()) {
+                        s2 = synsets2.at(itSynsets2);
                         m2 = s2.getMember();
                         itMember2 = m2.begin();
                     }
@@ -89,6 +91,7 @@ bool WordNetTree::constructTree() {
         }
     }
 
+    std::cout << std::endl;
     printTree();
     if (found) {
         n3 = findDistanceToRoot(lsoWord);
