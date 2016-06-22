@@ -1,8 +1,6 @@
 #include <iostream>
 
-#include "include/BinaryTree.h"
 #include "include/DatabaseHandler.h"
-#include "include/Node.h"
 #include "WordNetTree.h"
 
 using namespace std;
