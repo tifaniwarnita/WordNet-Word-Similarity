@@ -18,7 +18,7 @@ public:
     void setLevel(unsigned int val) { level = val; }
     std::set<std::string> getMember() { return member; }
     void addMember(std::string word) { member.insert(word); }
-    bool isMember(std::string word) { member.find(word) != member.end(); }
+    bool isMember(std::string word) { return member.find(word) != member.end(); }
     void printSynsets();
 
 protected:

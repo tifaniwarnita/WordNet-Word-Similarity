@@ -7,14 +7,13 @@ WordNetTree::WordNetTree() {
 WordNetTree::WordNetTree(std::string word1, std::string word2) {
     synsets1.push_back(Synsets(0, word1));
     synsets2.push_back(Synsets(0, word2));
-    constructTree();
 }
 
 WordNetTree::~WordNetTree() {
     //dtor
 }
 
-void WordNetTree::constructTree() {
+bool WordNetTree::constructTree() {
     bool found = false; // variable found indicate whether the lso of two words has been found or not
     std::vector<Synsets>::iterator itSynsets1 = synsets1.begin();
     std::vector<Synsets>::iterator itSynsets2 = synsets2.begin();
@@ -38,13 +37,12 @@ void WordNetTree::constructTree() {
 
     // find the hypernyms if not found yet
     while (!found && (itSynsets1 != synsets1.end() && (itSynsets2 != synsets2.end()))) {
-        std::cout << "--not found" << std::endl;
         // expand check the first synsets
         // search the hypernym of first word
         if (itMember1 != m1.end()) {
-            std::cout << "--check 1st synsets" << std::endl;
             w1 = (*itMember1);
             Synsets s1New = DatabaseHandler::searchHypernym(s1.getLevel() + 1, w1);
+            if (s1New.getMember().size() == 0) break; // word not found
             synsets1.push_back(s1New);
             intersection = findIntersection(s1New, synsets2);
             if (intersection.size() > 0) {
@@ -55,9 +53,7 @@ void WordNetTree::constructTree() {
             } else {
                 // not found, should expand and check the second synsets
                 // first, move the pointer of first synsets
-                std::cout << "--1st synset: not found" << std::endl;
                 itMember1++;
-                std::cout << "--itMember1++" << std::endl;
                 if (itMember1 == m1.end()) {
                     itSynsets1++;
                     if (itSynsets1 != synsets1.end()) {
@@ -69,9 +65,9 @@ void WordNetTree::constructTree() {
         }
         // search the hypernym of second word
         if (!found && itMember2 != m2.end()) {
-            std::cout << "--check 2nd synsets" << std::endl;
             w2 = (*itMember2);
             Synsets s2New = DatabaseHandler::searchHypernym(s2.getLevel() + 1, w2);
+            if (s2New.getMember().size() == 0) break; // word not found
             synsets2.push_back(s2New);
             intersection = findIntersection(s2New, synsets1);
             if (intersection.size() > 0) {
@@ -81,7 +77,6 @@ void WordNetTree::constructTree() {
                 n2 = s2New.getLevel();
             } else {
                 // not found, move the pointer of second synsets
-                std::cout << "--2nd synset: not found" << std::endl;
                 itMember2++;
                 if (itMember2 == m2.end()) {
                     itSynsets2++;
@@ -96,11 +91,13 @@ void WordNetTree::constructTree() {
 
     printTree();
     if (found) {
-        std::cout << "FOUND!" << std::endl;
-        std::cout << "lso word: " << lsoWord << std::endl;
-        std::cout << "n1: " << n1 << std::endl;
-        std::cout << "n2: " << n2 << std::endl;
+        n3 = findDistanceToRoot(lsoWord);
     }
+    return found;
+}
+
+float WordNetTree::computeSimilarity() {
+    return (float) 2 * n3 / (float) (n1 + n2 + 2 * n3);
 }
 
 void WordNetTree::printTree() {
@@ -115,6 +112,7 @@ void WordNetTree::printTree() {
         Synsets s = (Synsets) *it;
         s.printSynsets();
     }
+    std::cout << std::endl;
 }
 
 int WordNetTree::isMember(std::string word, std::vector<Synsets> synsets) {
@@ -163,4 +161,17 @@ std::map<std::string, Synsets> WordNetTree::findIntersection(Synsets synset, std
     } else {
         return retval;
     }
+}
+
+int WordNetTree::findDistanceToRoot(std::string word) {
+    Synsets s = Synsets(0, word);
+    std::cout << "Find distance to root:" << std::endl;
+    s.printSynsets();
+    while (s.getMember().size() > 0) {
+        int nextLevel = s.getLevel() + 1;
+        std::string nextWord = (*s.getMember().begin());
+        s = DatabaseHandler::searchHypernym(nextLevel, nextWord);
+        s.printSynsets();
+    }
+    return s.getLevel()-1;
 }

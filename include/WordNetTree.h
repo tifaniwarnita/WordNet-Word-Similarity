@@ -21,9 +21,14 @@ class WordNetTree
         void setSynsets1(std::vector<Synsets> val) { synsets1 = val; }
         std::vector<Synsets> getSynsets2() { return synsets2; }
         void setSynsets2(std::vector<Synsets> val) { synsets2 = val; }
+        std::string getLSOWord() { return lsoWord; }
+        unsigned int getN1() { return n1; };
+        unsigned int getN2() { return n2; };
+        unsigned int getN3() { return n3; };
 
         /** Other operations */
-        void constructTree();
+        bool constructTree();
+        float computeSimilarity();
         void printTree();
 
     protected:
@@ -31,6 +36,7 @@ class WordNetTree
     private:
         int isMember(std::string word, std::vector<Synsets> synsets);
         std::map<std::string, Synsets> findIntersection(Synsets synset, std::vector<Synsets> synsets);
+        int findDistanceToRoot(std::string word);
 
         std::vector<Synsets> synsets1; //!< Member variable "synsets1"
         std::vector<Synsets> synsets2; //!< Member variable "synsets2"

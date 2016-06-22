@@ -6,11 +6,23 @@ const std::string DatabaseHandler::DB_NAME = "sqlite-31.db";
 sqlite3 *DatabaseHandler::db;
 int DatabaseHandler::rc;
 Synsets DatabaseHandler::result;
+std::string DatabaseHandler::resultString;
 
-int DatabaseHandler::callback(void *data, int argc, char **argv, char** azColName) {
+int DatabaseHandler::callbackHypernym(void *data, int argc, char **argv, char** azColName) {
     for(int i=0; i<argc; i++) {
         if (argv[i]) {
             result.addMember(argv[i]);
+        }
+    }
+    return 0;
+}
+
+int DatabaseHandler::callbackDefinition(void *data, int argc, char **argv, char** azColName) {
+    for(int i=0; i<argc; i++) {
+        if (argv[i]) {
+            resultString += "- ";
+            resultString += argv[i];
+            resultString += "\n";
         }
     }
     return 0;
@@ -58,10 +70,9 @@ Synsets DatabaseHandler::searchHypernym(unsigned int level, std::string word) {
     sql += " AND semlinks.linkid = 1";
 
     const char *query = sql.c_str();
-    const char* data = "Callback function called";
     char *zErrMsg = 0;
 
-    rc = sqlite3_exec(db, query, callback, NULL, &zErrMsg);
+    rc = sqlite3_exec(db, query, callbackHypernym, NULL, &zErrMsg);
 
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << zErrMsg << std::endl;
@@ -70,4 +81,27 @@ Synsets DatabaseHandler::searchHypernym(unsigned int level, std::string word) {
     }
 
     return result;
+}
+
+std::string DatabaseHandler::getDefinition(std::string word) {
+    resultString = "";
+    std::string sql = "SELECT synsets.definition";
+    sql += " FROM words JOIN senses on words.wordid = senses.wordid";
+    sql += " JOIN synsets ON senses.synsetid = synsets.synsetid";
+    sql += " WHERE lemma = '";
+    sql += word;
+    sql += "';";
+
+    const char *query = sql.c_str();
+    char *zErrMsg = 0;
+
+    rc = sqlite3_exec(db, query, callbackDefinition, NULL, &zErrMsg);
+
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << zErrMsg << std::endl;
+        sqlite3_free(zErrMsg);
+    } else {
+
+    }
+    return resultString;
 }
