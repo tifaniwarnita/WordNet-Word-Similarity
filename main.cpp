@@ -1,16 +1,23 @@
 #include <iostream>
+#include <vector>
 
 #include "include/DatabaseHandler.h"
+#include "include/SynsetTree.h"
 #include "WordNetTree.h"
 
 using namespace std;
 
 int main()
 {
-    string s1 = "graveyard", s2 = "cemetery";
+    string w1 = "cat", w2 = "feline";
     if (!DatabaseHandler::initializeConnection())
         return (1);
-    cout << "First word: ";
+
+    SynsetTree tree = SynsetTree(w1, w2);
+    tree.printSynsetTree();
+
+
+    /* cout << "First word: ";
     cin >> s1;
     cout << "Second word: ";
     cin >> s2;
@@ -31,7 +38,7 @@ int main()
         cout << "Similarity: " << tree.computeSimilarity() << endl;
     } else {
         cout << "Word not found" << endl;
-    }
+    } */
 
     return 0;
 }

@@ -7,26 +7,7 @@ sqlite3 *DatabaseHandler::db;
 int DatabaseHandler::rc;
 Synsets DatabaseHandler::result;
 std::string DatabaseHandler::resultString;
-
-int DatabaseHandler::callbackHypernym(void *data, int argc, char **argv, char** azColName) {
-    for(int i=0; i<argc; i++) {
-        if (argv[i]) {
-            result.addMember(argv[i]);
-        }
-    }
-    return 0;
-}
-
-int DatabaseHandler::callbackDefinition(void *data, int argc, char **argv, char** azColName) {
-    for(int i=0; i<argc; i++) {
-        if (argv[i]) {
-            resultString += "- ";
-            resultString += argv[i];
-            resultString += "\n";
-        }
-    }
-    return 0;
-}
+std::vector<std::string> DatabaseHandler::queryResult;
 
 DatabaseHandler::DatabaseHandler() {
     //ctor
@@ -104,4 +85,82 @@ std::string DatabaseHandler::getDefinition(std::string word) {
 
     }
     return resultString;
+}
+
+std::vector<std::string> DatabaseHandler::searchSynsets(std::string word) {
+    queryResult.clear();
+    std::string sql = "SELECT sy1.synsetid";
+    sql += " FROM words w1";
+    sql += " LEFT JOIN senses se1 ON w1.wordid = se1.wordid";
+    sql += " LEFT JOIN synsets sy1 ON se1.synsetid = sy1.synsetid";
+    sql += " WHERE w1.lemma = '";
+    sql += word;
+    sql += "'";
+
+    const char *query = sql.c_str();
+    char *zErrMsg = 0;
+
+    rc = sqlite3_exec(db, query, callbackFunction, NULL, &zErrMsg);
+
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << zErrMsg << std::endl;
+        sqlite3_free(zErrMsg);
+    }
+
+    return queryResult;
+}
+
+std::vector<std::string> DatabaseHandler::searchHypernyms(std::string synsetId) {
+    queryResult.clear();
+    std::string sql = "SELECT sy2.synsetid";
+    sql += " FROM synsets sy1";
+    sql += " LEFT JOIN semlinks ON sy1.synsetid = semlinks.synset1id";
+    sql += " LEFT JOIN synsets sy2 ON semlinks.synset2id = sy2.synsetid";
+    sql += " WHERE sy1.synsetid = '";
+    sql += synsetId;
+    sql += "'";
+    sql += " AND sy1.pos = 'n'";
+    sql += " AND semlinks.linkid = 1;";
+
+    const char *query = sql.c_str();
+    char *zErrMsg = 0;
+
+    rc = sqlite3_exec(db, query, callbackFunction, NULL, &zErrMsg);
+
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << zErrMsg << std::endl;
+        sqlite3_free(zErrMsg);
+    }
+
+    return queryResult;
+}
+
+
+int DatabaseHandler::callbackHypernym(void *data, int argc, char **argv, char** azColName) {
+    for(int i=0; i<argc; i++) {
+        if (argv[i]) {
+            result.addMember(argv[i]);
+        }
+    }
+    return 0;
+}
+
+int DatabaseHandler::callbackDefinition(void *data, int argc, char **argv, char** azColName) {
+    for(int i=0; i<argc; i++) {
+        if (argv[i]) {
+            resultString += "- ";
+            resultString += argv[i];
+            resultString += "\n";
+        }
+    }
+    return 0;
+}
+
+int DatabaseHandler::callbackFunction(void *data, int argc, char **argv, char** azColName) {
+    for(int i=0; i<argc; i++) {
+        if (argv[i]) {
+            queryResult.push_back(argv[i]);
+        }
+    }
+    return 0;
 }

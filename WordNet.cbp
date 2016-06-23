@@ -34,17 +34,17 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/BinaryTree.h" />
 		<Unit filename="include/DatabaseHandler.h" />
-		<Unit filename="include/Node.h" />
+		<Unit filename="include/Synsets.h" />
+		<Unit filename="include/WordNetTree.h" />
 		<Unit filename="lib/sqlite3.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="lib/sqlite3.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/BinaryTree.cpp" />
 		<Unit filename="src/DatabaseHandler.cpp" />
-		<Unit filename="src/Node.cpp" />
+		<Unit filename="src/Synsets.cpp" />
+		<Unit filename="src/WordNetTree.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
