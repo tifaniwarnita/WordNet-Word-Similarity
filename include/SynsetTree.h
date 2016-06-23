@@ -1,7 +1,8 @@
 #ifndef SYNSETTREE_H
 #define SYNSETTREE_H
 
-#include <unordered_map>
+#include <iomanip>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -31,18 +32,19 @@ class SynsetTree
         void setWord1(std::string val) { word1 = val; }
         std::string getWord2() { return word2; }
         void setWord2(std::string val) { word2 = val; }
-        std::unordered_map<std::string, int> getBranch1() { return branch1; }
-        void setBranch1(std::unordered_map<std::string, int> val) { branch1 = val; }
-        std::unordered_map<std::string, int> getBranch2() { return branch2; }
-        void setBranch2(std::unordered_map<std::string, int> val) { branch2 = val; }
+        std::map<std::string, int> getBranch1() { return branch1; }
+        void setBranch1(std::map<std::string, int> val) { branch1 = val; }
+        std::map<std::string, int> getBranch2() { return branch2; }
+        void setBranch2(std::map<std::string, int> val) { branch2 = val; }
 
         /** Other operations */
         void printSynsetTree();
+        void printLSO();
     protected:
 
     private:
         void constructTree();
-        std::unordered_map<std::string, int> similarSynsets(std::string word, std::unordered_map<std::string, int> wordList);
+        std::map<std::string, int> similarSynsets(std::string word, std::map<std::string, int> wordList);
 
         std::string lsoWord;
         int n1;
@@ -53,8 +55,10 @@ class SynsetTree
         std::vector<Node> lsoNodes;
         std::string word1;
         std::string word2;
-        std::unordered_map<std::string, int> branch1;
-        std::unordered_map<std::string, int> branch2;
+        std::map<std::string, int> branch1;
+        std::map<std::string, int> branch2;
+        std::vector<std::string> synsets1;
+        std::vector<std::string> synsets2;
 };
 
 #endif // SYNSETTREE_H

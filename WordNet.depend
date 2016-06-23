@@ -1,16 +1,20 @@
 # depslib dependency file v1.0
-1466604363 source:c:\users\tifani\documents\github\wordnet-word-similarity\main.cpp
+1466645923 source:c:\users\tifani\documents\github\wordnet-word-similarity\main.cpp
 	<iostream>
 	<vector>
 	"include/DatabaseHandler.h"
 	"include/SynsetTree.h"
 	"WordNetTree.h"
 
-1466633564 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\node.cpp
+1466646445 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\node.cpp
 	"Node.h"
 
-1466634039 c:\users\tifani\documents\github\wordnet-word-similarity\include\node.h
+1466646477 c:\users\tifani\documents\github\wordnet-word-similarity\include\node.h
+	<iostream>
+	<iomanip>
 	<string>
+	<vector>
+	"DatabaseHandler.h"
 
 1466489771 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\binarytree.cpp
 	"../include/BinaryTree.h"
@@ -77,7 +81,7 @@
 	<ctype.h>
 	<math.h>
 
-1466601920 c:\users\tifani\documents\github\wordnet-word-similarity\include\databasehandler.h
+1466645020 c:\users\tifani\documents\github\wordnet-word-similarity\include\databasehandler.h
 	<cstring>
 	<iostream>
 	<vector>
@@ -87,7 +91,7 @@
 1464985455 c:\users\tifani\documents\github\wordnet-word-similarity\lib\sqlite3.h
 	<stdarg.h>
 
-1466601987 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\databasehandler.cpp
+1466645313 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\databasehandler.cpp
 	"DatabaseHandler.h"
 
 1466553447 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\synsets.cpp
@@ -109,11 +113,12 @@
 1466573719 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\wordnettree.cpp
 	"WordNetTree.h"
 
-1466640122 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\synsettree.cpp
+1466646951 source:c:\users\tifani\documents\github\wordnet-word-similarity\src\synsettree.cpp
 	"SynsetTree.h"
 
-1466636404 c:\users\tifani\documents\github\wordnet-word-similarity\include\synsettree.h
-	<unordered_map>
+1466646478 c:\users\tifani\documents\github\wordnet-word-similarity\include\synsettree.h
+	<iomanip>
+	<map>
 	<string>
 	<vector>
 	"DatabaseHandler.h"

@@ -18,6 +18,7 @@ public:
     static bool initializeConnection();
     static Synsets searchHypernym(unsigned int level, std::string word);
     static std::string getDefinition(std::string word);
+    static std::string getDefinitionOfSynset(std::string synset);
 
     static std::vector<std::string> searchSynsets(std::string word);
     static std::vector<std::string> searchHypernyms(std::string synsetId);

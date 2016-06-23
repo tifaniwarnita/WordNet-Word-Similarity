@@ -87,6 +87,28 @@ std::string DatabaseHandler::getDefinition(std::string word) {
     return resultString;
 }
 
+std::string DatabaseHandler::getDefinitionOfSynset(std::string synset) {
+    resultString = "";
+    std::string sql = "SELECT synsets.definition";
+    sql += " FROM synsets";
+    sql += " WHERE synsets.synsetid = '";
+    sql += synset;
+    sql +="';";
+
+    const char *query = sql.c_str();
+    char *zErrMsg = 0;
+
+    rc = sqlite3_exec(db, query, callbackDefinition, NULL, &zErrMsg);
+
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << zErrMsg << std::endl;
+        sqlite3_free(zErrMsg);
+    } else {
+
+    }
+    return resultString;
+}
+
 std::vector<std::string> DatabaseHandler::searchSynsets(std::string word) {
     queryResult.clear();
     std::string sql = "SELECT sy1.synsetid";
@@ -148,9 +170,7 @@ int DatabaseHandler::callbackHypernym(void *data, int argc, char **argv, char** 
 int DatabaseHandler::callbackDefinition(void *data, int argc, char **argv, char** azColName) {
     for(int i=0; i<argc; i++) {
         if (argv[i]) {
-            resultString += "- ";
-            resultString += argv[i];
-            resultString += "\n";
+            resultString = argv[i];
         }
     }
     return 0;

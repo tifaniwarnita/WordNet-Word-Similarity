@@ -13,9 +13,17 @@ int main()
     if (!DatabaseHandler::initializeConnection())
         return (1);
 
+    cout << "First word : ";
+    cin >> w1;
+    cout << "Second word: ";
+    cin >> w2;
     SynsetTree tree = SynsetTree(w1, w2);
     tree.printSynsetTree();
+    cout << endl << "=====================================" << endl << endl;
 
+    cout << "W1: " << w1 << endl;
+    cout << "W2: " << w2 << endl << endl;
+    tree.printLSO();
 
     /* cout << "First word: ";
     cin >> s1;
